@@ -80,7 +80,7 @@ public class WorldMixin {
 	@Inject(method = "tickEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/BlockEntity;isRemoved()Z", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
 	private void keepACopy(CallbackInfo ci, Iterator<BlockEntity> iterator, BlockEntity entity) {
 		this.myIterator = iterator;
-		Profiler.start_entity_section(this.worldName, entity);
+		Profiler.start_tileentity_section(this.worldName, entity);
 	}
 
 	@Redirect(method = "tickEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/BlockEntity;isRemoved()Z", ordinal = 1))

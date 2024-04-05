@@ -76,4 +76,9 @@ class AbstractStatsListWidgetMixin {
     private int rowWidth(int value) {
         return 600;
     }
+
+    @ModifyConstant(method = "*", constant = @Constant(intValue = 140))
+    private int fixScrollbarPosition(int value) {
+        return 250;
+    }
 }

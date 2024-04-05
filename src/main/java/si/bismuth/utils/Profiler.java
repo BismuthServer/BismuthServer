@@ -1,10 +1,15 @@
 package si.bismuth.utils;
 
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entities;
+import net.minecraft.entity.Entity;
 import net.minecraft.server.MinecraftServer;
+import si.bismuth.BismuthServer;
 
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Profiler {
@@ -91,7 +96,7 @@ public class Profiler {
 		current_section_start = System.nanoTime();
 	}
 
-	public static void start_entity_section(String dimension, Object e) {
+	public static void start_entity_section(String dimension, Entity e) {
 		if (tick_health_requested == 0L || test_type != 2) {
 			return;
 		}
@@ -101,7 +106,25 @@ public class Profiler {
 		if (current_section != null) {
 			end_current_section();
 		}
-		current_section = dimension + "." + simplifyName(e.getClass().getSimpleName());
+		if (Entities.getKey(e) == null) {
+			current_section = dimension + ".player";
+		} else {
+			current_section = dimension + "." + Objects.requireNonNull(Entities.getKey(e)).getPath();
+		}
+		current_section_start = System.nanoTime();
+	}
+
+	public static void start_tileentity_section(String dimension, BlockEntity e) {
+		if (tick_health_requested == 0L || test_type != 2) {
+			return;
+		}
+		if (current_tick_start == 0L) {
+			return;
+		}
+		if (current_section != null) {
+			end_current_section();
+		}
+		current_section = dimension + "." + Objects.requireNonNull(BlockEntity.getKey(e.getClass())).getPath();
 		current_section_start = System.nanoTime();
 	}
 
@@ -111,6 +134,10 @@ public class Profiler {
 		}
 		long end_time = System.nanoTime();
 		if (current_tick_start == 0L) {
+			return;
+		}
+		if (current_section == null) {
+			BismuthServer.log.error(new IllegalStateException("Finishing section that hasn't started"));
 			return;
 		}
 		time_repo.put(current_section, time_repo.get(current_section) + end_time - current_section_start);
@@ -124,6 +151,10 @@ public class Profiler {
 		}
 		long end_time = System.nanoTime();
 		if (current_tick_start == 0L) {
+			return;
+		}
+		if (current_section == null) {
+			BismuthServer.log.error(new IllegalStateException("Finishing section that hasn't started"));
 			return;
 		}
 		String time_section = "t." + current_section;
@@ -367,9 +398,5 @@ public class Profiler {
 		current_tick_start = 0L;
 		current_section_start = 0L;
 		current_section = null;
-	}
-
-	private static String simplifyName(String name) {
-		return name.replaceFirst("^Entity|^TileEntity.*?", "");
 	}
 }
