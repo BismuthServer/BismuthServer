@@ -17,7 +17,7 @@ public class CraftingManagerMixin {
 		at = @At(
 			value = "INVOKE",
 			target = "Lnet/minecraft/crafting/CraftingManager;load()Z",
-			shift = At.Shift.BEFORE
+			shift = At.Shift.AFTER
 		)
 	)
 	private static void bismuthServer$registerRecipes(CallbackInfoReturnable<Boolean> cir) {
