@@ -15,7 +15,7 @@ public class CraftingManagerMixin {
 		method = "init",
 		cancellable = true,
 		at = @At(
-			value = "HEAD"
+			value = "TAIL"
 		)
 	)
 	private static void bismuthServer$registerRecipes(CallbackInfoReturnable<Boolean> cir) {
