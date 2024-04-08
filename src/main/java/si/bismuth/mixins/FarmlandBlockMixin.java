@@ -25,7 +25,7 @@ public class FarmlandBlockMixin {
 		final Box shape = Objects.requireNonNull(state.getCollisionShape(world, pos)).move(pos);
 
 		for (final Entity entity : world.getEntities((Entity) null, shape)) {
-			entity.setPosition(entity.x, shape.maxY, entity.z);
+			entity.teleport(entity.x, shape.maxY, entity.z);
 		}
 	}
 }
