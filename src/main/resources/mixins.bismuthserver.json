@@ -26,7 +26,6 @@
 		"MovingBlockEntityMixin",
 		"NaturalSpawnerMixin",
 		"PlayerAdvancementsMixin",
-		"PlayerInventoryMixin",
 		"PlayerManagerMixin",
 		"PumpkinBlockMixin",
 		"RecipePlacementHelperMixin",
@@ -52,6 +51,7 @@
 	"server": [
 		"DedicatedServerMixin",
 		"RconClientMixin",
-		"ItemEntityMixin"
+		"ItemEntityMixin",
+		"PlayerInventoryMixin"
 	]
 }
