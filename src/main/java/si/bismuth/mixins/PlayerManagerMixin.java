@@ -10,13 +10,13 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import si.bismuth.BismuthServer;
-import si.bismuth.patches.FakeServerPlayerEntity;
 import si.bismuth.patches.FakeServerPlayNetworkHandler;
+import si.bismuth.patches.FakeServerPlayerEntity;
 import si.bismuth.utils.ScoreboardHelper;
 
 import java.util.Arrays;
@@ -24,6 +24,7 @@ import java.util.List;
 
 @Mixin(PlayerManager.class)
 public class PlayerManagerMixin {
+	@Unique
 	private ServerPlayerEntity mycopy;
 
 	@Inject(method = "onLogin", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/server/PlayerManager;load(Lnet/minecraft/server/entity/living/player/ServerPlayerEntity;)Lnet/minecraft/nbt/NbtCompound;"))
@@ -63,9 +64,7 @@ public class PlayerManagerMixin {
 	@Inject(method = "sendMessage(Lnet/minecraft/text/Text;Z)V", at = @At("HEAD"))
 	private void onSendMessage(Text component, boolean isSystem, CallbackInfo ci) {
 		if (!isSystem) {
-			final String text = component.getString().replaceFirst("^<(\\S*?)>", "\u02F9`$1`\u02FC");
-			BismuthServer.bot.sendToDiscord(text);
-			final List<String> args = Arrays.asList(text.split(" "));
+			final List<String> args = Arrays.asList(component.getString().split(" "));
 			if (args.size() > 1 && args.get(1).equals(";s")) {
 				ScoreboardHelper.setScoreboard(args, 1);
 			} else if (args.size() > 1 && args.get(1).equals(";t")) {

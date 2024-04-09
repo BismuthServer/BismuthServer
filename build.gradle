@@ -28,19 +28,6 @@ dependencies {
 
 	ploceus.addCommonLibraries()
 	ploceus.dependOsl(project.osl_version)
-	include(implementation("net.dv8tion:JDA:${project.jda_version}"))
-	// Required by JDA see https://github.com/discord-jda/JDA/blob/e7bafe96f93dd56b244620580ec1c43d6ff25623/build.gradle.kts#L96-L138
-	// or ./gradlew dependencies
-	include("net.sf.trove4j:trove4j:3.0.3")
-	include("com.fasterxml.jackson.core:jackson-databind:2.16.0")
-	include("com.fasterxml.jackson.core:jackson-annotations:2.16.0")
-	include("com.fasterxml.jackson:jackson-bom:2.16.0")
-	include("com.fasterxml.jackson.core:jackson-core:2.16.0")
-	include("com.neovisionaries:nv-websocket-client:2.14")
-	include("com.squareup.okhttp3:okhttp:4.12.0")
-	include("com.squareup.okio:okio:3.6.0")
-	include("com.squareup.okio:okio-jvm:3.6.0")
-	include("org.apache.commons:commons-collections4:4.4")
 }
 
 processResources {

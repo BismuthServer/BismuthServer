@@ -13,6 +13,7 @@ import si.bismuth.BismuthServer;
 public class GameModeCommandMixin {
 	@Inject(method = "parseGameMode", at = @At("RETURN"), cancellable = true)
 	private void onParseGameMode(CommandSource source, String s, CallbackInfoReturnable<GameMode> cir) {
+		// TODO make this easier to use with a testserver
 		if (!BismuthServer.server.isOnlineMode()) {
 			return;
 		}

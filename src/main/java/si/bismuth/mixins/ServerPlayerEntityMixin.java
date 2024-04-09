@@ -7,9 +7,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.EndGatewayBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.living.player.PlayerEntity;
-import net.minecraft.server.PlayerManager;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,9 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import si.bismuth.BismuthServer;
 import si.bismuth.utils.IRecipeBookItemDuper;
 
 @Mixin(ServerPlayerEntity.class)
@@ -84,12 +80,5 @@ public abstract class ServerPlayerEntityMixin extends PlayerEntity implements IR
 				}
 			}
 		}
-	}
-
-	@Redirect(method = "onKilled", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;sendSystemMessage(Lnet/minecraft/text/Text;)V"))
-	private void sendMessage(PlayerManager manager, Text message) {
-		manager.sendSystemMessage(message);
-		BismuthServer.bot.sendDeathMessage(message);
-		BismuthServer.log.info("Player {} died at {} {} {} in {}", this.getName(), this.x, this.y, this.z, this.world.dimension.getType().getKey());
 	}
 }

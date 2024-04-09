@@ -1,7 +1,6 @@
 package si.bismuth;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.world.GameMode;
 import net.ornithemc.osl.entrypoints.api.server.ServerModInitializer;
@@ -9,14 +8,12 @@ import net.ornithemc.osl.lifecycle.api.server.MinecraftServerEvents;
 import net.ornithemc.osl.networking.api.server.ServerConnectionEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import si.bismuth.discord.DCBot;
 import si.bismuth.logging.LoggerRegistry;
 import si.bismuth.network.server.ServerNetworking;
 import si.bismuth.utils.BismuthRecipeManager;
 import si.bismuth.utils.HUDController;
 import si.bismuth.utils.ScoreboardHelper;
 
-import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -25,7 +22,6 @@ public class BismuthServer implements ServerModInitializer {
 	public static final Logger log = LogManager.getLogger("Bismuth");
 	public static final ServerNetworking networking = new ServerNetworking();
 	public static MinecraftServer server;
-	public static DCBot bot;
 
 	public static final ArrayList<UUID> joinedPlayers = new ArrayList<>();
 
@@ -48,13 +44,6 @@ public class BismuthServer implements ServerModInitializer {
 	public static void onServerLoaded(MinecraftServer server) {
 		server.setMotd("v" + BISMUTH_SERVER_VERSION + " \u2014 " + server.getServerMotd());
 		LoggerRegistry.initLoggers(server);
-		if (server.isDedicated()) {
-			try {
-				BismuthServer.bot = new DCBot(((DedicatedServer) server).getPropertyOrDefault("botToken", ""), server.isOnlineMode());
-			} catch (LoginException | InterruptedException e) {
-				throw new RuntimeException("Error setting up discord bot", e);
-			}
-		}
 	}
 
 	public static void onWorldLoaded(MinecraftServer minecraftServer) {
@@ -62,9 +51,6 @@ public class BismuthServer implements ServerModInitializer {
 	}
 
 	public static void stop(MinecraftServer server) {
-		if (server.isDedicated()) {
-			BismuthServer.bot.shutDownBot();
-		}
 		BismuthServer.server = null;
 	}
 
@@ -73,6 +59,7 @@ public class BismuthServer implements ServerModInitializer {
 	}
 
 	public static void playerConnected(MinecraftServer server, ServerPlayerEntity player) {
+		// TODO make this easier to work with a test server
 		if (BismuthServer.server.isOnlineMode()) {
 			final GameMode mode = player.interactionManager.getGameMode();
 			if (mode == GameMode.CREATIVE) {

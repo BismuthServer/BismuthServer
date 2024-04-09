@@ -6,21 +6,11 @@ import net.minecraft.server.command.handler.CommandListener;
 import net.minecraft.server.command.handler.CommandManager;
 import net.minecraft.server.command.handler.CommandRegistry;
 import net.minecraft.server.command.source.CommandSource;
-import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import si.bismuth.BismuthServer;
-import si.bismuth.commands.AllowGatewayCommand;
-import si.bismuth.commands.DisplayItemCommand;
-import si.bismuth.commands.LogCommand;
-import si.bismuth.commands.PingCommand;
-import si.bismuth.commands.PlayerCommand;
-import si.bismuth.commands.SearchForItemCommand;
-import si.bismuth.commands.StackBoxesCommand;
-import si.bismuth.commands.TickCommand;
+import si.bismuth.commands.*;
 
 @Mixin(CommandManager.class)
 public abstract class CommandManagerMixin extends CommandRegistry implements CommandListener {
@@ -40,13 +30,6 @@ public abstract class CommandManagerMixin extends CommandRegistry implements Com
 	private void silenceRcon(CommandSource source, Command command, int flags, String message, Object[] args, CallbackInfo ci) {
 		if (source.getName().equals("Rcon")) {
 			ci.cancel();
-		}
-	}
-
-	@Inject(method = "sendSuccess", at = @At(value = "INVOKE", target = "Lnet/minecraft/text/Style;setItalic(Ljava/lang/Boolean;)Lnet/minecraft/text/Style;", shift = At.Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
-	private void logAdminCommands(CommandSource source, Command command, int flags, String message, Object[] args, CallbackInfo ci, boolean flag, MinecraftServer server, Text adminMessage) {
-		if (server.isOnlineMode()) {
-			BismuthServer.bot.sendToDiscord(adminMessage.getString());
 		}
 	}
 }
