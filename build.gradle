@@ -2,7 +2,6 @@ plugins {
 	id 'maven-publish'
 	id 'fabric-loom' version '1.5-SNAPSHOT'
 	id 'ploceus' version '1.5-SNAPSHOT'
-	id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 base {
@@ -18,10 +17,6 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 	mavenCentral()
-}
-
-loom {
-	accessWidenerPath = file("src/main/resources/bismuthserver.accesswidener")
 }
 
 dependencies {

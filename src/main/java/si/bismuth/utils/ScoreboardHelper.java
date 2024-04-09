@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ScoreboardHelper {
-	public static final String upperScoreboardScorePrefix = "$";
 	private static ServerScoreboard board;
 
 	public static void init() {
@@ -26,10 +25,6 @@ public class ScoreboardHelper {
 	public static ScoreboardObjective getObjective(List<String> args, Scoreboard board) {
 		final Collection<String> objectives = board.getObjectives().stream().map(ScoreboardObjective::getName).collect(Collectors.toList());
 		return args.size() > 2 ? board.getObjective(getClosestMatch(objectives, args.get(2))) : null;
-	}
-
-	public static String getUpperScoreboardScoreName(String name) {
-		return upperScoreboardScorePrefix + name;
 	}
 
 	private static String getClosestMatch(Collection<String> collection, String target) {

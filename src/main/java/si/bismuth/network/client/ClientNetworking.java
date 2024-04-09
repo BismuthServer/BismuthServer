@@ -15,7 +15,6 @@ public class ClientNetworking {
 	public ClientNetworking() {
 		this.registerListener(InventoryContentsPacket::new, ClientNetworkHandler::handleInventoryContents);
 		this.registerListener(ItemLocationsPacket::new, ClientNetworkHandler::handleItemLocation);
-		this.registerListener(StatisticsPacket::new, ClientNetworkHandler::handleStatistics);
 	}
 
 	private <T extends BisPacket> void registerListener(Supplier<T> initializer, Consumer<T> packetHandler) {

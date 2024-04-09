@@ -1,8 +1,0 @@
-accessWidener v2 named
-accessible field net/minecraft/stat/Stat NUMBER_FORMAT Ljava/text/NumberFormat;
-accessible field net/minecraft/stat/Stat DECIMAL_FORMAT Ljava/text/DecimalFormat;
-accessible field net/minecraft/client/gui/screen/StatsScreen stats Lnet/minecraft/stat/PlayerStats;
-accessible class net/minecraft/client/gui/screen/StatsScreen$ItemStatsListWidget
-accessible class net/minecraft/client/gui/screen/StatsScreen$StatsListWidget
-accessible class net/minecraft/client/gui/screen/StatsScreen$AbstractStatsListWidget
-accessible field net/minecraft/client/gui/screen/StatsScreen$AbstractStatsListWidget f_2401102 I
