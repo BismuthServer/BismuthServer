@@ -24,7 +24,6 @@ dependencies {
 	mappings "net.ornithemc:feather:${project.minecraft_version}+build.${project.feather_build}:v2"
 
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation("net.fabricmc:fabric-language-kotlin:1.10.19+kotlin.1.9.23")
 
 	ploceus.addCommonLibraries()
 	ploceus.dependOsl(project.osl_version)
