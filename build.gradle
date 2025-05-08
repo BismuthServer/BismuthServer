@@ -1,13 +1,13 @@
 plugins {
 	id 'maven-publish'
-	id 'fabric-loom' version '1.5-SNAPSHOT'
-	id 'ploceus' version '1.5-SNAPSHOT'
+	id 'fabric-loom' version '1.10-SNAPSHOT'
+	id 'ploceus' version '1.10-SNAPSHOT'
 }
 
 base {
 	archivesName = project.archives_base_name
 }
-version = project.version
+version = "${project.version}+mc${project.minecraft_version}"
 group = project.maven_group
 
 repositories {
@@ -16,16 +16,16 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
-	mavenCentral()
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.ornithemc:feather:${project.minecraft_version}+build.${project.feather_build}:v2"
+	mappings ploceus.featherMappings(project.feather_build)
+	exceptions ploceus.raven(project.raven_build) // remove this line if not using exceptions patches
+	signatures ploceus.sparrow(project.sparrow_build) // remove this line if not using generics patches
 
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	ploceus.addCommonLibraries()
 	ploceus.dependOsl(project.osl_version)
 }
 
