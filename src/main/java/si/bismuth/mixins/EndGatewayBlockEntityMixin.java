@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import si.bismuth.BismuthServer;
 import si.bismuth.commands.AllowGatewayCommand;
 
 @Mixin(EndGatewayBlockEntity.class)
@@ -39,8 +40,8 @@ public class EndGatewayBlockEntityMixin extends EndPortalBlockEntity {
 					shouldBlockTeleport = false;
 					this.findExitPortal();
 					AllowGatewayCommand.canEnterPortal = false;
-					// TODO expose API on discord bot mod so other mods can send stuff to discord like this
-//					BismuthServer.bot.sendToDiscord("**" + player.getName() + " generated gateway " + this.pos + "**");
+
+					BismuthServer.log.info("**{} generated gateway {}**", player.getName(), this.pos);
 				} else {
 					if (this.world.getTime() % 20L == 0L) {
 						player.sendMessage(DENY);
