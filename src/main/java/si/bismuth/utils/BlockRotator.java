@@ -91,7 +91,7 @@ public class BlockRotator {
 		} else {
 			return false;
 		}
-		worldIn.onRegionChanged(pos, pos);
+		worldIn.notifyRegionChanged(pos, pos);
 		return true;
 	}
 

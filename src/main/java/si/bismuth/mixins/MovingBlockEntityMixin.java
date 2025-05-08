@@ -42,7 +42,7 @@ public class MovingBlockEntityMixin extends BlockEntity {
 	@Inject(method = "tick", at = @At(value = "INVOKE", shift = At.Shift.BEFORE, target = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/BlockState;I)Z"))
 	private void tick(CallbackInfo ci) {
 		final BlockState state = this.world.getBlockState(this.pos);
-		this.world.onBlockChanged(pos.offset(state.get(PistonHeadBlock.FACING).getOpposite()), state, state, 0);
+		this.world.notifyBlockChanged(pos.offset(state.get(PistonHeadBlock.FACING).getOpposite()), state, state, 0);
 	}
 
 	@Inject(method = "moveEntities", at = @At(value = "INVOKE", target = "Ljava/lang/ThreadLocal;set(Ljava/lang/Object;)V", ordinal = 1, shift = At.Shift.AFTER, remap = false), locals = LocalCapture.CAPTURE_FAILHARD)
